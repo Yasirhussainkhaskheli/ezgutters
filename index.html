@@ -1,10 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <title>Test Page</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EZ Gutters | Springfield MO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a; --surface: #111111; --card: #161616; --border: #222222;
+      --accent: #b8ff57; --text: #f0f0f0; --muted: #888;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 5%; border-bottom: 1px solid var(--border);
+      background: rgba(10,10,10,0.9); backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent) !important; color: #000 !important; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600 !important; }
+
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 8rem 5% 5rem; position: relative; overflow: hidden;
+    }
+    .glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(184,255,87,0.07) 0%, transparent 70%); top: 5%; right: -100px; pointer-events: none; }
+    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(184,255,87,0.1); border: 1px solid rgba(184,255,87,0.25);
+      color: var(--accent); font-size: 0.78rem; font-weight: 600;
+      padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.5rem;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.8rem,5vw,4.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 1.5rem; }
+    h1 em { font-style: normal; color: var(--accent); }
+    .hero p { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 480px; margin-bottom: 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #000; padding: 0.85rem 2rem; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 0.95rem; transition: transform 0.2s, opacity 0.2s; }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-ghost { border: 1px solid var(--border); color: var(--text); padding: 0.85rem 2rem; border-radius: 8px; font-weight: 500; text-decoration: none; font-size: 0.95rem; transition: border-color 0.2s; }
+    .btn-ghost:hover { border-color: var(--accent); }
+
+    .hero-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; position: relative; }
+    .hero-card img { width: 100%; height: 360px; object-fit: cover; display: block; filter: brightness(0.8); }
+    .card-badge {
+      position: absolute; bottom: 1.2rem; left: 1.2rem; right: 1.2rem;
+      background: rgba(10,10,10,0.88); border: 1px solid var(--border);
+      backdrop-filter: blur(10px); border-radius: 10px; padding: 1rem 1.2rem;
+      display: flex; justify-content: space-between;
+    }
+    .badge-v { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+    .badge-l { font-size: 0.75rem; color: var(--muted); }
+
+    .stats { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.5rem 5%; }
+    .stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+    section { padding: 6rem 5%; }
+    .sec-inner { max-width: 1200px; margin: 0 auto; }
+    .sec-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+    .sec-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem,3.5vw,2.8rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 2.5rem; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .service-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: border-color 0.3s, transform 0.3s; }
+    .service-card:hover { border-color: rgba(184,255,87,0.35); transform: translateY(-4px); }
+    .svc-icon { width: 46px; height: 46px; background: rgba(184,255,87,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.2rem; }
+    .service-card h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .service-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+    .why-bg { background: var(--surface); }
+    .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .why-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+    .why-item { display: flex; gap: 1rem; }
+    .dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .why-item h4 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .why-item p { font-size: 0.87rem; color: var(--muted); line-height: 1.6; }
+    .boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; }
+    .box:first-child { grid-column: span 2; }
+    .box-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .box-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .testi-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; }
+    .stars { color: var(--accent); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .testi-text { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+    .testi-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+    .testi-loc { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .cta-bg { background: var(--surface); }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(184,255,87,0.07) 0%, rgba(87,255,212,0.04) 100%);
+      border: 1px solid rgba(184,255,87,0.2); border-radius: 20px; padding: 4rem; text-align: center;
+    }
+    .cta-badge { display: inline-block; background: var(--accent); color: #000; font-weight: 700; font-size: 0.78rem; padding: 0.3rem 0.9rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .cta-box h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem,3.5vw,3rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 1rem; }
+    .cta-box p { color: var(--muted); margin-bottom: 2rem; }
+
+    footer { padding: 2.5rem 5%; border-top: 1px solid var(--border); }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; text-decoration: none; color: var(--text); }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy { font-size: 0.8rem; color: var(--muted); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
+    .fade1 { animation: fadeUp 0.7s ease forwards; }
+    .fade2 { animation: fadeUp 0.7s 0.15s ease forwards; opacity: 0; }
+    .fade3 { animation: fadeUp 0.7s 0.3s ease forwards; opacity: 0; }
+
+    @media(max-width:768px){
+      .hero-inner,.why-inner{grid-template-columns:1fr}
+      .hero-visual,.boxes{display:none}
+      .services-grid,.testi-grid{grid-template-columns:1fr}
+      .stats-inner{grid-template-columns:repeat(2,1fr)}
+      .nav-links{display:none}
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, World!</h1>
+
+<nav>
+  <a href="#" class="nav-logo">EZ<span>Gutters</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact" class="nav-cta">Free Estimate</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="glow"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag fade1">Springfield, MO — Save up to 30% Off</div>
+      <h1 class="fade2">Protect Your<br/>Home with <em>Expert</em><br/>Gutters</h1>
+      <p class="fade2">Locally owned. Lifetime warranty. Seamless installation done in hours — built for Ozark weather.</p>
+      <div class="hero-btns fade3">
+        <a href="#contact" class="btn-primary">Get Free Estimate</a>
+        <a href="#services" class="btn-ghost">Our Services →</a>
+      </div>
+    </div>
+    <div class="hero-visual fade2">
+      <div class="hero-card">
+        <img src="images/gutter-20insallation-20springfield.avif" alt="Gutter Installation Springfield MO" onerror="this.style.minHeight='360px';this.style.background='#1a1a1a'"/>
+        <div class="card-badge">
+          <div><div class="badge-v">Lifetime</div><div class="badge-l">Warranty</div></div>
+          <div><div class="badge-v">500+</div><div class="badge-l">Homes Done</div></div>
+          <div><div class="badge-v">5.0 ★</div><div class="badge-l">Rating</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Homes Protected</div></div>
+    <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">Years Experience</div></div>
+    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Satisfaction Rate</div></div>
+    <div class="stat-item"><div class="stat-num">1 Day</div><div class="stat-label">Most Installs Done</div></div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="sec-inner">
+    <div class="sec-tag">What We Do</div>
+    <h2 class="sec-title">Our Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="svc-icon">🏠</div>
+        <h3>Precision Gutter Installation</h3>
+        <p>Seamless, durable gutters tailored to your roof's exact specs. Custom-fit for every Springfield home.</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-icon">🛡️</div>
+        <h3>Advanced Gutter Guard Systems</h3>
+        <p>Block 100% of leaves and debris while letting water flow freely. No more clogs, no more cleaning.</p>
+      </div>
+      <div class="service-card">
+        <div class="svc-icon">🔧</div>
+        <h3>Fast & Reliable Gutter Repairs</h3>
+        <p>Fix leaks, sagging, or damage quickly. We stop costly water issues before they become disasters.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why-bg" id="why">
+  <div class="sec-inner">
+    <div class="why-inner">
+      <div>
+        <div class="sec-tag">Why EZ Gutters</div>
+        <h2 class="sec-title">Built for Springfield Homes</h2>
+        <div class="why-list">
+          <div class="why-item"><div class="dot"></div><div><h4>Local Expertise You Can Trust</h4><p>We know Ozark weather. Our gutters handle heavy rains, ice, and debris — guaranteed.</p></div></div>
+          <div class="why-item"><div class="dot"></div><div><h4>Lifetime Warranty Protection</h4><p>Every installation and repair comes with a no-hassle lifetime warranty. We stand by our work, period.</p></div></div>
+          <div class="why-item"><div class="dot"></div><div><h4>Fast, Clean & Reliable</h4><p>Most jobs done in 1 day. Zero mess, zero stress, and upfront pricing with no surprises.</p></div></div>
+        </div>
+      </div>
+      <div class="boxes">
+        <div class="box"><div class="box-num">30% Off</div><div class="box-label">New Year Limited-Time Offer</div></div>
+        <div class="box"><div class="box-num">5 ★</div><div class="box-label">Average Rating</div></div>
+        <div class="box"><div class="box-num">1 Day</div><div class="box-label">Average Install Time</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="sec-inner">
+    <div class="sec-tag">Reviews</div>
+    <h2 class="sec-title">What Clients Say</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Very trustworthy business. Hired them to replace my gutters and shingles — it looks phenomenal! Will 100% recommend to all my friends and family.</p>
+        <div class="testi-name">Ruvim Kleymenov</div><div class="testi-loc">Springfield, MO</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">EZ Gutters truly is the best in town! After trying numerous gutter services, I can say these guys do the best quality service. 10/10!</p>
+        <div class="testi-name">David Goncharuk</div><div class="testi-loc">Nixa, MO</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Professional and easy to work with. Clear estimate, quick installation. The gutters look great and are working perfectly. Highly recommend!</p>
+        <div class="testi-name">Matthew Buzhduga</div><div class="testi-loc">Republic, MO</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-bg" id="contact">
+  <div class="sec-inner">
+    <div class="cta-box">
+      <span class="cta-badge">🎉 Limited Time — Save 30%</span>
+      <h2>Ready to Protect Your Home?</h2>
+      <p>Get a free estimate today. No obligations, no pressure — just honest pricing.</p>
+      <a href="tel:+14172250149" class="btn-primary">Call +1 (417) 225-0149</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">EZ<span>Gutters</span></a>
+    <div class="footer-copy">© 2025 EZ Gutters LLC. All Rights Reserved. Springfield, MO.</div>
+  </div>
+</footer>
+
 </body>
 </html>
